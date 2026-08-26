@@ -1,0 +1,85 @@
+<connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
+    <!-- ==================== TL_0 (Top-Left) ==================== -->
+    <!-- From West (in_TL0_W) -->
+    <connection from="in_TL0_W" to="out_TL0_N" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL0_W" to="edge_0_to_1" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL0_W" to="edge_0_to_3" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From North (in_TL0_N) -->
+    <connection from="in_TL0_N" to="edge_0_to_1" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL0_N" to="edge_0_to_3" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL0_N" to="out_TL0_W" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From East (edge_1_to_0) -->
+    <connection from="edge_1_to_0" to="edge_0_to_3" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_1_to_0" to="out_TL0_W" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_1_to_0" to="out_TL0_N" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From South (edge_3_to_0) -->
+    <connection from="edge_3_to_0" to="out_TL0_W" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_3_to_0" to="out_TL0_N" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_3_to_0" to="edge_0_to_1" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- ==================== TL_1 (Top-Right) ==================== -->
+    <!-- From West (edge_0_to_1) -->
+    <connection from="edge_0_to_1" to="out_TL1_N" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_0_to_1" to="out_TL1_E" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_0_to_1" to="edge_1_to_2" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From North (in_TL1_N) -->
+    <connection from="in_TL1_N" to="out_TL1_E" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL1_N" to="edge_1_to_2" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL1_N" to="edge_1_to_0" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From East (in_TL1_E) -->
+    <connection from="in_TL1_E" to="edge_1_to_2" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL1_E" to="edge_1_to_0" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL1_E" to="out_TL1_N" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From South (edge_2_to_1) -->
+    <connection from="edge_2_to_1" to="edge_1_to_0" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_2_to_1" to="out_TL1_N" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_2_to_1" to="out_TL1_E" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- ==================== TL_2 (Bottom-Right) ==================== -->
+    <!-- From North (edge_1_to_2) -->
+    <connection from="edge_1_to_2" to="out_TL2_E" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_1_to_2" to="out_TL2_S" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_1_to_2" to="edge_2_to_3" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From East (in_TL2_E) -->
+    <connection from="in_TL2_E" to="out_TL2_S" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL2_E" to="edge_2_to_3" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL2_E" to="edge_2_to_1" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From South (in_TL2_S) -->
+    <connection from="in_TL2_S" to="edge_2_to_3" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL2_S" to="edge_2_to_1" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL2_S" to="out_TL2_E" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From West (edge_3_to_2) -->
+    <connection from="edge_3_to_2" to="edge_2_to_1" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_3_to_2" to="out_TL2_E" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_3_to_2" to="out_TL2_S" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- ==================== TL_3 (Bottom-Left) ==================== -->
+    <!-- From North (edge_0_to_3) -->
+    <connection from="edge_0_to_3" to="edge_3_to_2" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_0_to_3" to="out_TL3_S" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_0_to_3" to="out_TL3_W" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From East (edge_2_to_3) -->
+    <connection from="edge_2_to_3" to="out_TL3_S" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="edge_2_to_3" to="out_TL3_W" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="edge_2_to_3" to="edge_3_to_0" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From South (in_TL3_S) -->
+    <connection from="in_TL3_S" to="out_TL3_W" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL3_S" to="edge_3_to_0" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL3_S" to="edge_3_to_2" fromLane="0" toLane="0"/> <!-- Right -->
+
+    <!-- From West (in_TL3_W) -->
+    <connection from="in_TL3_W" to="edge_3_to_0" fromLane="1" toLane="1"/> <!-- Left -->
+    <connection from="in_TL3_W" to="edge_3_to_2" fromLane="0" toLane="0"/> <!-- Straight -->
+    <connection from="in_TL3_W" to="out_TL3_S" fromLane="0" toLane="0"/> <!-- Right -->
+</connections>

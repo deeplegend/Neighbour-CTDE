@@ -1,0 +1,43 @@
+<edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
+    <!-- Internal Ring Connections (Each TL connected to its 2 neighbors) -->
+    <!-- Top Horizontal: TL_0 <-> TL_1 -->
+    <edge id="edge_0_to_1" from="TL_0" to="TL_1" numLanes="2" speed="13.89"/>
+    <edge id="edge_1_to_0" from="TL_1" to="TL_0" numLanes="2" speed="13.89"/>
+
+    <!-- Right Vertical: TL_1 <-> TL_2 -->
+    <edge id="edge_1_to_2" from="TL_1" to="TL_2" numLanes="2" speed="13.89"/>
+    <edge id="edge_2_to_1" from="TL_2" to="TL_1" numLanes="2" speed="13.89"/>
+
+    <!-- Bottom Horizontal: TL_2 <-> TL_3 -->
+    <edge id="edge_2_to_3" from="TL_2" to="TL_3" numLanes="2" speed="13.89"/>
+    <edge id="edge_3_to_2" from="TL_3" to="TL_2" numLanes="2" speed="13.89"/>
+
+    <!-- Left Vertical: TL_3 <-> TL_0 -->
+    <edge id="edge_3_to_0" from="TL_3" to="TL_0" numLanes="2" speed="13.89"/>
+    <edge id="edge_0_to_3" from="TL_0" to="TL_3" numLanes="2" speed="13.89"/>
+
+    <!-- Boundary External Connections -->
+    <!-- TL_0 Boundaries -->
+    <edge id="in_TL0_N" from="top_left_N" to="TL_0" numLanes="2" speed="13.89"/>
+    <edge id="out_TL0_N" from="TL_0" to="top_left_N" numLanes="2" speed="13.89"/>
+    <edge id="in_TL0_W" from="top_left_W" to="TL_0" numLanes="2" speed="13.89"/>
+    <edge id="out_TL0_W" from="TL_0" to="top_left_W" numLanes="2" speed="13.89"/>
+
+    <!-- TL_1 Boundaries -->
+    <edge id="in_TL1_N" from="top_right_N" to="TL_1" numLanes="2" speed="13.89"/>
+    <edge id="out_TL1_N" from="TL_1" to="top_right_N" numLanes="2" speed="13.89"/>
+    <edge id="in_TL1_E" from="top_right_E" to="TL_1" numLanes="2" speed="13.89"/>
+    <edge id="out_TL1_E" from="TL_1" to="top_right_E" numLanes="2" speed="13.89"/>
+
+    <!-- TL_2 Boundaries -->
+    <edge id="in_TL2_E" from="bottom_right_E" to="TL_2" numLanes="2" speed="13.89"/>
+    <edge id="out_TL2_E" from="TL_2" to="bottom_right_E" numLanes="2" speed="13.89"/>
+    <edge id="in_TL2_S" from="bottom_right_S" to="TL_2" numLanes="2" speed="13.89"/>
+    <edge id="out_TL2_S" from="TL_2" to="bottom_right_S" numLanes="2" speed="13.89"/>
+
+    <!-- TL_3 Boundaries -->
+    <edge id="in_TL3_S" from="bottom_left_S" to="TL_3" numLanes="2" speed="13.89"/>
+    <edge id="out_TL3_S" from="TL_3" to="bottom_left_S" numLanes="2" speed="13.89"/>
+    <edge id="in_TL3_W" from="bottom_left_W" to="TL_3" numLanes="2" speed="13.89"/>
+    <edge id="out_TL3_W" from="TL_3" to="bottom_left_W" numLanes="2" speed="13.89"/>
+</edges>
