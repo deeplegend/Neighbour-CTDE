@@ -1,5 +1,7 @@
+import csv
 import os
 import subprocess
+from pathlib import Path
 import torch
 import numpy as np
 import traci
@@ -13,6 +15,7 @@ from networks_centralized import (
     CentralizedPPOActor,
     decode_action
 )
+from sumo_env.generate_traffic import generate_routefile
 
 
 def recompile_network(tls_type="static"):
@@ -54,15 +57,16 @@ except ImportError:
 # this script's numbers non-comparable to the others.
 TEST_STEPS = 1000
 GUI_ENABLED = False  # Set to True to watch the benchmark visually
+EVALUATION_SEEDS = (1001, 1002, 1003, 1004, 1005)
 
 
 class TrafficBenchmarker:
     def __init__(self, env):
         self.env = env
         self.agents = env.agents
-        self.results = {}  # Stores metrics for the final table & plot
+        self.results = {}  # Per-seed metrics for the final table, CSV, and plot
 
-    def run_fixed_time(self):
+    def run_fixed_time(self, seed, route_file):
         """Baseline: the REAL netconvert-generated static fixed-time program
         (same 'Static' controller used in the Independent / Neighbor-CTDE
         scripts), run directly through raw TraCI -- NOT through
@@ -76,10 +80,9 @@ class TrafficBenchmarker:
         and was not equivalent to 'Static' at all.
         """
         print("\n--- Running Baseline: Static (Fixed-Time) ---")
-        recompile_network("static")
-
         binary = checkBinary('sumo')
         cmd = [binary, "-c", "sumo_env/square_grid.sumocfg", "--no-step-log", "true"]
+        cmd.extend(["--seed", str(seed), "--route-files", str(route_file)])
         traci.start(cmd)
 
         total_arrived = 0
@@ -104,9 +107,9 @@ class TrafficBenchmarker:
             "avg_delay": syswide_total_wait / TEST_STEPS,
             "avg_ev_wait": ev_total_wait / max(1, ev_observations),
         }
-        self._save_and_print_results("Static (Fixed-Time)", metrics)
+        self._save_and_print_results("Static (Fixed-Time)", metrics, seed)
 
-    def run_centralized_model(self, algorithm):
+    def run_centralized_model(self, algorithm, seed, route_file):
         """Evaluates trained Centralized models."""
         model_path = f"models/Centralized_{algorithm}.pth"
         if algorithm == "MAPPO":
@@ -117,12 +120,10 @@ class TrafficBenchmarker:
             return
 
         print(f"\n--- Running Centralized Model: {algorithm} ---")
-        # ADDED: ensure the net.xml is deterministically "static" type before
-        # every RL run, matching the independent/neighbor-CTDE scripts --
-        # previously this depended on whatever an earlier script run had
-        # last left the net.xml as.
-        recompile_network("static")
-        self.env.reset()
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+        self.env.reset(seed=seed, route_file=str(route_file))
 
         global_obs_dim = self.env.global_state_dim
         joint_action_dim = 16
@@ -157,9 +158,9 @@ class TrafficBenchmarker:
             global_state = self.env.get_global_state()
 
         metrics = self.env.get_episode_metrics()
-        self._save_and_print_results(f"Centralized {algorithm}", metrics)
+        self._save_and_print_results(f"Centralized {algorithm}", metrics, seed)
 
-    def _save_and_print_results(self, name, metrics):
+    def _save_and_print_results(self, name, metrics, seed):
         """Stores and prints the metrics returned by env.get_episode_metrics().
 
         FIX: previously this method computed its own avg_wait as
@@ -174,11 +175,12 @@ class TrafficBenchmarker:
         in the other tables -- not total trip duration measured in outer-loop
         steps, which is what this method used to report as "Avg EV Time".
         """
-        self.results[name] = {
+        values = {
             "throughput": metrics["throughput"],
             "avg_wait": metrics["avg_delay"],
             "avg_ev_time": metrics["avg_ev_wait"],
         }
+        self.results.setdefault(name, []).append({"seed": seed, **values})
 
         print(f"[{name} Results]")
         print(f"  - Total Throughput:     {metrics['throughput']:.0f} vehicles")
@@ -192,15 +194,27 @@ class TrafficBenchmarker:
             print("No evaluation data available to display table.")
             return
 
-        table_width = 85
+        table_width = 105
         print("\n" + "=" * table_width)
-        print(f"{'BENCHMARK SUMMARY COMPARISON TABLE':^{table_width}}")
+        print(f"{'BENCHMARK SUMMARY (MEAN ± SAMPLE SD, FIVE TEST SEEDS)':^{table_width}}")
         print("=" * table_width)
-        print(f"{'Method / Controller':<25} | {'Throughput (Vehicles)':<21} | {'Avg Wait Time (s)':<17} | {'Avg EV Wait (s)':<15}")
+        print(f"{'Method / Controller':<25} | {'Throughput':<24} | {'Avg Delay (s)':<24} | {'Avg EV Wait (s)':<24}")
         print("-" * table_width)
 
-        for method, data in self.results.items():
-            print(f"{method:<25} | {data['throughput']:<21.0f} | {data['avg_wait']:<17.2f} | {data['avg_ev_time']:<15.2f}")
+        for method, runs in self.results.items():
+            data = {
+                key: np.asarray([run[key] for run in runs], dtype=float)
+                for key in ("throughput", "avg_wait", "avg_ev_time")
+            }
+            mean_sd = {}
+            for key, values in data.items():
+                mean = values.mean()
+                sd = values.std(ddof=1) if len(values) > 1 else float("nan")
+                mean_sd[key] = f"{mean:.2f} ± {sd:.2f}"
+            print(
+                f"{method:<25} | {mean_sd['throughput']:<24} | "
+                f"{mean_sd['avg_wait']:<24} | {mean_sd['avg_ev_time']:<24}"
+            )
 
         print("=" * table_width + "\n")
 
@@ -210,8 +224,20 @@ class TrafficBenchmarker:
             return
 
         labels = list(self.results.keys())
-        throughput = [self.results[m]["throughput"] for m in labels]
-        wait_times = [self.results[m]["avg_wait"] for m in labels]
+        throughput = [
+            np.mean([run["throughput"] for run in self.results[m]]) for m in labels
+        ]
+        wait_times = [
+            np.mean([run["avg_wait"] for run in self.results[m]]) for m in labels
+        ]
+        throughput_sd = [
+            np.std([run["throughput"] for run in self.results[m]], ddof=1)
+            for m in labels
+        ]
+        wait_sd = [
+            np.std([run["avg_wait"] for run in self.results[m]], ddof=1)
+            for m in labels
+        ]
 
         x = np.arange(len(labels))
         width = 0.35
@@ -219,7 +245,11 @@ class TrafficBenchmarker:
         fig, ax1 = plt.subplots(figsize=(12, 6))
 
         color1 = 'royalblue'
-        bars1 = ax1.bar(x - width / 2, throughput, width, label='Total Throughput', color=color1, edgecolor='black', alpha=0.85)
+        bars1 = ax1.bar(
+            x - width / 2, throughput, width, yerr=throughput_sd, capsize=4,
+            label='Total Throughput (mean ± SD)', color=color1,
+            edgecolor='black', alpha=0.85
+        )
         ax1.bar_label(bars1, fmt='%.1f', padding=3)
 
         ax1.set_ylabel('Total Throughput (Vehicles) [\u2191 Higher is better]', color=color1, fontsize=11, fontweight='bold')
@@ -230,13 +260,20 @@ class TrafficBenchmarker:
 
         ax2 = ax1.twinx()
         color2 = 'crimson'
-        bars2 = ax2.bar(x + width / 2, wait_times, width, label='Avg Waiting Time', color=color2, edgecolor='black', alpha=0.85)
+        bars2 = ax2.bar(
+            x + width / 2, wait_times, width, yerr=wait_sd, capsize=4,
+            label='Avg Waiting Time (mean ± SD)', color=color2,
+            edgecolor='black', alpha=0.85
+        )
         ax2.bar_label(bars2, fmt='%.2f', padding=3)
 
         ax2.set_ylabel('Avg Waiting Time (Seconds) [\u2193 Lower is better]', color=color2, fontsize=11, fontweight='bold')
         ax2.tick_params(axis='y', labelcolor=color2)
 
-        plt.title('Traffic Control Benchmarking: Throughput vs. Average Delay', fontsize=13, fontweight='bold', pad=15)
+        plt.title(
+            'Traffic Control Benchmarking across Five Test Seeds',
+            fontsize=13, fontweight='bold', pad=15
+        )
 
         lines_1, labels_1 = ax1.get_legend_handles_labels()
         lines_2, labels_2 = ax2.get_legend_handles_labels()
@@ -256,19 +293,71 @@ if __name__ == "__main__":
     eval_env = MultiIntersectionSUMOEnv(use_gui=GUI_ENABLED, max_steps=TEST_STEPS)
     benchmarker = TrafficBenchmarker(eval_env)
 
-    # 1. Run Baseline
-    benchmarker.run_fixed_time()
+    route_dir = Path("sumo_env/eval_routes")
+    route_dir.mkdir(parents=True, exist_ok=True)
+    route_files = {}
+    for seed in EVALUATION_SEEDS:
+        route_file = route_dir / f"routes_seed_{seed}.rou.xml"
+        generate_routefile(
+            filename=str(route_file), max_steps=TEST_STEPS, seed=seed
+        )
+        route_files[seed] = route_file
 
-    # 3. Run Centralized Models
-    benchmarker.run_centralized_model("DQN")
-    benchmarker.run_centralized_model("D2QN")
-    benchmarker.run_centralized_model("D3QN")
-    benchmarker.run_centralized_model("MAPPO")
+    recompile_network("static")
+    for seed in EVALUATION_SEEDS:
+        print(f"\nEvaluating static baseline on seed {seed}...")
+        benchmarker.run_fixed_time(seed, route_files[seed])
+
+    # Evaluate every available centralized checkpoint on the same scenarios.
+    for algorithm in ("DQN", "D2QN", "D3QN", "MAPPO"):
+        model_path = (
+            "models/Centralized_PPO.pth"
+            if algorithm == "MAPPO"
+            else f"models/Centralized_{algorithm}.pth"
+        )
+        if not os.path.exists(model_path):
+            print(f"Skipping Centralized {algorithm}: model not found at {model_path}")
+            continue
+        for seed in EVALUATION_SEEDS:
+            print(f"\nEvaluating Centralized {algorithm} on seed {seed}...")
+            benchmarker.run_centralized_model(
+                algorithm, seed, route_files[seed]
+            )
 
     eval_env.close()
 
     # 4. Display Formatted Table
     benchmarker.print_summary_table()
+
+    raw_path = Path("Centralized_Evaluation_Raw.csv")
+    summary_path = Path("Centralized_Evaluation_Summary.csv")
+    with raw_path.open("w", newline="", encoding="utf-8") as output:
+        writer = csv.writer(output)
+        writer.writerow(("Method", "Seed", "Throughput", "Avg Delay", "Avg EV Wait"))
+        for method, runs in benchmarker.results.items():
+            for run in runs:
+                writer.writerow((
+                    method, run["seed"], run["throughput"],
+                    run["avg_wait"], run["avg_ev_time"]
+                ))
+    with summary_path.open("w", newline="", encoding="utf-8") as output:
+        writer = csv.writer(output)
+        writer.writerow((
+            "Method", "Seed Count", "Throughput Mean", "Throughput Variance",
+            "Avg Delay Mean", "Avg Delay Variance", "Avg EV Wait Mean",
+            "Avg EV Wait Variance"
+        ))
+        for method, runs in benchmarker.results.items():
+            metrics = {
+                key: np.asarray([run[key] for run in runs], dtype=float)
+                for key in ("throughput", "avg_wait", "avg_ev_time")
+            }
+            row = [method, len(runs)]
+            for values in metrics.values():
+                row.extend((values.mean(), values.var(ddof=1)))
+            writer.writerow(row)
+    print(f"Per-seed results: {raw_path}")
+    print(f"Mean/variance summary: {summary_path}")
 
     # 5. Generate and Display Single Combined Graph
     benchmarker.plot_comparison_graphs()

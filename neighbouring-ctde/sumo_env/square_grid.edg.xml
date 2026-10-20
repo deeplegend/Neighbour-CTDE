@@ -1,43 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
 <edges xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/edges_file.xsd">
-    <!-- Internal Ring Connections (Each TL connected to its 2 neighbors) -->
-    <!-- Top Horizontal: TL_0 <-> TL_1 -->
-    <edge id="edge_0_to_1" from="TL_0" to="TL_1" numLanes="2" speed="13.89"/>
-    <edge id="edge_1_to_0" from="TL_1" to="TL_0" numLanes="2" speed="13.89"/>
-
-    <!-- Right Vertical: TL_1 <-> TL_2 -->
-    <edge id="edge_1_to_2" from="TL_1" to="TL_2" numLanes="2" speed="13.89"/>
-    <edge id="edge_2_to_1" from="TL_2" to="TL_1" numLanes="2" speed="13.89"/>
-
-    <!-- Bottom Horizontal: TL_2 <-> TL_3 -->
-    <edge id="edge_2_to_3" from="TL_2" to="TL_3" numLanes="2" speed="13.89"/>
-    <edge id="edge_3_to_2" from="TL_3" to="TL_2" numLanes="2" speed="13.89"/>
-
-    <!-- Left Vertical: TL_3 <-> TL_0 -->
-    <edge id="edge_3_to_0" from="TL_3" to="TL_0" numLanes="2" speed="13.89"/>
-    <edge id="edge_0_to_3" from="TL_0" to="TL_3" numLanes="2" speed="13.89"/>
-
-    <!-- Boundary External Connections -->
-    <!-- TL_0 Boundaries -->
-    <edge id="in_TL0_N" from="top_left_N" to="TL_0" numLanes="2" speed="13.89"/>
-    <edge id="out_TL0_N" from="TL_0" to="top_left_N" numLanes="2" speed="13.89"/>
-    <edge id="in_TL0_W" from="top_left_W" to="TL_0" numLanes="2" speed="13.89"/>
-    <edge id="out_TL0_W" from="TL_0" to="top_left_W" numLanes="2" speed="13.89"/>
-
-    <!-- TL_1 Boundaries -->
-    <edge id="in_TL1_N" from="top_right_N" to="TL_1" numLanes="2" speed="13.89"/>
-    <edge id="out_TL1_N" from="TL_1" to="top_right_N" numLanes="2" speed="13.89"/>
-    <edge id="in_TL1_E" from="top_right_E" to="TL_1" numLanes="2" speed="13.89"/>
-    <edge id="out_TL1_E" from="TL_1" to="top_right_E" numLanes="2" speed="13.89"/>
-
-    <!-- TL_2 Boundaries -->
-    <edge id="in_TL2_E" from="bottom_right_E" to="TL_2" numLanes="2" speed="13.89"/>
-    <edge id="out_TL2_E" from="TL_2" to="bottom_right_E" numLanes="2" speed="13.89"/>
-    <edge id="in_TL2_S" from="bottom_right_S" to="TL_2" numLanes="2" speed="13.89"/>
-    <edge id="out_TL2_S" from="TL_2" to="bottom_right_S" numLanes="2" speed="13.89"/>
-
-    <!-- TL_3 Boundaries -->
-    <edge id="in_TL3_S" from="bottom_left_S" to="TL_3" numLanes="2" speed="13.89"/>
-    <edge id="out_TL3_S" from="TL_3" to="bottom_left_S" numLanes="2" speed="13.89"/>
-    <edge id="in_TL3_W" from="bottom_left_W" to="TL_3" numLanes="2" speed="13.89"/>
-    <edge id="out_TL3_W" from="TL_3" to="bottom_left_W" numLanes="2" speed="13.89"/>
+    <edge id="edge_0_to_1" from="TL_0" to="TL_1" numLanes="2" speed="13.89" />
+    <edge id="edge_1_to_0" from="TL_1" to="TL_0" numLanes="2" speed="13.89" />
+    <edge id="edge_0_to_5" from="TL_0" to="TL_5" numLanes="2" speed="13.89" />
+    <edge id="edge_5_to_0" from="TL_5" to="TL_0" numLanes="2" speed="13.89" />
+    <edge id="edge_1_to_2" from="TL_1" to="TL_2" numLanes="2" speed="13.89" />
+    <edge id="edge_2_to_1" from="TL_2" to="TL_1" numLanes="2" speed="13.89" />
+    <edge id="edge_1_to_6" from="TL_1" to="TL_6" numLanes="2" speed="13.89" />
+    <edge id="edge_6_to_1" from="TL_6" to="TL_1" numLanes="2" speed="13.89" />
+    <edge id="edge_2_to_3" from="TL_2" to="TL_3" numLanes="2" speed="13.89" />
+    <edge id="edge_3_to_2" from="TL_3" to="TL_2" numLanes="2" speed="13.89" />
+    <edge id="edge_2_to_7" from="TL_2" to="TL_7" numLanes="2" speed="13.89" />
+    <edge id="edge_7_to_2" from="TL_7" to="TL_2" numLanes="2" speed="13.89" />
+    <edge id="edge_3_to_4" from="TL_3" to="TL_4" numLanes="2" speed="13.89" />
+    <edge id="edge_4_to_3" from="TL_4" to="TL_3" numLanes="2" speed="13.89" />
+    <edge id="edge_3_to_8" from="TL_3" to="TL_8" numLanes="2" speed="13.89" />
+    <edge id="edge_8_to_3" from="TL_8" to="TL_3" numLanes="2" speed="13.89" />
+    <edge id="edge_4_to_9" from="TL_4" to="TL_9" numLanes="2" speed="13.89" />
+    <edge id="edge_9_to_4" from="TL_9" to="TL_4" numLanes="2" speed="13.89" />
+    <edge id="edge_5_to_6" from="TL_5" to="TL_6" numLanes="2" speed="13.89" />
+    <edge id="edge_6_to_5" from="TL_6" to="TL_5" numLanes="2" speed="13.89" />
+    <edge id="edge_5_to_10" from="TL_5" to="TL_10" numLanes="2" speed="13.89" />
+    <edge id="edge_10_to_5" from="TL_10" to="TL_5" numLanes="2" speed="13.89" />
+    <edge id="edge_6_to_7" from="TL_6" to="TL_7" numLanes="2" speed="13.89" />
+    <edge id="edge_7_to_6" from="TL_7" to="TL_6" numLanes="2" speed="13.89" />
+    <edge id="edge_6_to_11" from="TL_6" to="TL_11" numLanes="2" speed="13.89" />
+    <edge id="edge_11_to_6" from="TL_11" to="TL_6" numLanes="2" speed="13.89" />
+    <edge id="edge_7_to_8" from="TL_7" to="TL_8" numLanes="2" speed="13.89" />
+    <edge id="edge_8_to_7" from="TL_8" to="TL_7" numLanes="2" speed="13.89" />
+    <edge id="edge_7_to_12" from="TL_7" to="TL_12" numLanes="2" speed="13.89" />
+    <edge id="edge_12_to_7" from="TL_12" to="TL_7" numLanes="2" speed="13.89" />
+    <edge id="edge_8_to_9" from="TL_8" to="TL_9" numLanes="2" speed="13.89" />
+    <edge id="edge_9_to_8" from="TL_9" to="TL_8" numLanes="2" speed="13.89" />
+    <edge id="edge_8_to_13" from="TL_8" to="TL_13" numLanes="2" speed="13.89" />
+    <edge id="edge_13_to_8" from="TL_13" to="TL_8" numLanes="2" speed="13.89" />
+    <edge id="edge_9_to_14" from="TL_9" to="TL_14" numLanes="2" speed="13.89" />
+    <edge id="edge_14_to_9" from="TL_14" to="TL_9" numLanes="2" speed="13.89" />
+    <edge id="edge_10_to_11" from="TL_10" to="TL_11" numLanes="2" speed="13.89" />
+    <edge id="edge_11_to_10" from="TL_11" to="TL_10" numLanes="2" speed="13.89" />
+    <edge id="edge_10_to_15" from="TL_10" to="TL_15" numLanes="2" speed="13.89" />
+    <edge id="edge_15_to_10" from="TL_15" to="TL_10" numLanes="2" speed="13.89" />
+    <edge id="edge_11_to_12" from="TL_11" to="TL_12" numLanes="2" speed="13.89" />
+    <edge id="edge_12_to_11" from="TL_12" to="TL_11" numLanes="2" speed="13.89" />
+    <edge id="edge_11_to_16" from="TL_11" to="TL_16" numLanes="2" speed="13.89" />
+    <edge id="edge_16_to_11" from="TL_16" to="TL_11" numLanes="2" speed="13.89" />
+    <edge id="edge_12_to_13" from="TL_12" to="TL_13" numLanes="2" speed="13.89" />
+    <edge id="edge_13_to_12" from="TL_13" to="TL_12" numLanes="2" speed="13.89" />
+    <edge id="edge_12_to_17" from="TL_12" to="TL_17" numLanes="2" speed="13.89" />
+    <edge id="edge_17_to_12" from="TL_17" to="TL_12" numLanes="2" speed="13.89" />
+    <edge id="edge_13_to_14" from="TL_13" to="TL_14" numLanes="2" speed="13.89" />
+    <edge id="edge_14_to_13" from="TL_14" to="TL_13" numLanes="2" speed="13.89" />
+    <edge id="edge_13_to_18" from="TL_13" to="TL_18" numLanes="2" speed="13.89" />
+    <edge id="edge_18_to_13" from="TL_18" to="TL_13" numLanes="2" speed="13.89" />
+    <edge id="edge_14_to_19" from="TL_14" to="TL_19" numLanes="2" speed="13.89" />
+    <edge id="edge_19_to_14" from="TL_19" to="TL_14" numLanes="2" speed="13.89" />
+    <edge id="edge_15_to_16" from="TL_15" to="TL_16" numLanes="2" speed="13.89" />
+    <edge id="edge_16_to_15" from="TL_16" to="TL_15" numLanes="2" speed="13.89" />
+    <edge id="edge_15_to_20" from="TL_15" to="TL_20" numLanes="2" speed="13.89" />
+    <edge id="edge_20_to_15" from="TL_20" to="TL_15" numLanes="2" speed="13.89" />
+    <edge id="edge_16_to_17" from="TL_16" to="TL_17" numLanes="2" speed="13.89" />
+    <edge id="edge_17_to_16" from="TL_17" to="TL_16" numLanes="2" speed="13.89" />
+    <edge id="edge_16_to_21" from="TL_16" to="TL_21" numLanes="2" speed="13.89" />
+    <edge id="edge_21_to_16" from="TL_21" to="TL_16" numLanes="2" speed="13.89" />
+    <edge id="edge_17_to_18" from="TL_17" to="TL_18" numLanes="2" speed="13.89" />
+    <edge id="edge_18_to_17" from="TL_18" to="TL_17" numLanes="2" speed="13.89" />
+    <edge id="edge_17_to_22" from="TL_17" to="TL_22" numLanes="2" speed="13.89" />
+    <edge id="edge_22_to_17" from="TL_22" to="TL_17" numLanes="2" speed="13.89" />
+    <edge id="edge_18_to_19" from="TL_18" to="TL_19" numLanes="2" speed="13.89" />
+    <edge id="edge_19_to_18" from="TL_19" to="TL_18" numLanes="2" speed="13.89" />
+    <edge id="edge_18_to_23" from="TL_18" to="TL_23" numLanes="2" speed="13.89" />
+    <edge id="edge_23_to_18" from="TL_23" to="TL_18" numLanes="2" speed="13.89" />
+    <edge id="edge_19_to_24" from="TL_19" to="TL_24" numLanes="2" speed="13.89" />
+    <edge id="edge_24_to_19" from="TL_24" to="TL_19" numLanes="2" speed="13.89" />
+    <edge id="edge_20_to_21" from="TL_20" to="TL_21" numLanes="2" speed="13.89" />
+    <edge id="edge_21_to_20" from="TL_21" to="TL_20" numLanes="2" speed="13.89" />
+    <edge id="edge_21_to_22" from="TL_21" to="TL_22" numLanes="2" speed="13.89" />
+    <edge id="edge_22_to_21" from="TL_22" to="TL_21" numLanes="2" speed="13.89" />
+    <edge id="edge_22_to_23" from="TL_22" to="TL_23" numLanes="2" speed="13.89" />
+    <edge id="edge_23_to_22" from="TL_23" to="TL_22" numLanes="2" speed="13.89" />
+    <edge id="edge_23_to_24" from="TL_23" to="TL_24" numLanes="2" speed="13.89" />
+    <edge id="edge_24_to_23" from="TL_24" to="TL_23" numLanes="2" speed="13.89" />
+    <edge id="in_TL_0_N" from="boundary_TL_0_N" to="TL_0" numLanes="2" speed="13.89" />
+    <edge id="out_TL_0_N" from="TL_0" to="boundary_TL_0_N" numLanes="2" speed="13.89" />
+    <edge id="in_TL_0_W" from="boundary_TL_0_W" to="TL_0" numLanes="2" speed="13.89" />
+    <edge id="out_TL_0_W" from="TL_0" to="boundary_TL_0_W" numLanes="2" speed="13.89" />
+    <edge id="in_TL_1_N" from="boundary_TL_1_N" to="TL_1" numLanes="2" speed="13.89" />
+    <edge id="out_TL_1_N" from="TL_1" to="boundary_TL_1_N" numLanes="2" speed="13.89" />
+    <edge id="in_TL_2_N" from="boundary_TL_2_N" to="TL_2" numLanes="2" speed="13.89" />
+    <edge id="out_TL_2_N" from="TL_2" to="boundary_TL_2_N" numLanes="2" speed="13.89" />
+    <edge id="in_TL_3_N" from="boundary_TL_3_N" to="TL_3" numLanes="2" speed="13.89" />
+    <edge id="out_TL_3_N" from="TL_3" to="boundary_TL_3_N" numLanes="2" speed="13.89" />
+    <edge id="in_TL_4_N" from="boundary_TL_4_N" to="TL_4" numLanes="2" speed="13.89" />
+    <edge id="out_TL_4_N" from="TL_4" to="boundary_TL_4_N" numLanes="2" speed="13.89" />
+    <edge id="in_TL_4_E" from="boundary_TL_4_E" to="TL_4" numLanes="2" speed="13.89" />
+    <edge id="out_TL_4_E" from="TL_4" to="boundary_TL_4_E" numLanes="2" speed="13.89" />
+    <edge id="in_TL_5_W" from="boundary_TL_5_W" to="TL_5" numLanes="2" speed="13.89" />
+    <edge id="out_TL_5_W" from="TL_5" to="boundary_TL_5_W" numLanes="2" speed="13.89" />
+    <edge id="in_TL_9_E" from="boundary_TL_9_E" to="TL_9" numLanes="2" speed="13.89" />
+    <edge id="out_TL_9_E" from="TL_9" to="boundary_TL_9_E" numLanes="2" speed="13.89" />
+    <edge id="in_TL_10_W" from="boundary_TL_10_W" to="TL_10" numLanes="2" speed="13.89" />
+    <edge id="out_TL_10_W" from="TL_10" to="boundary_TL_10_W" numLanes="2" speed="13.89" />
+    <edge id="in_TL_14_E" from="boundary_TL_14_E" to="TL_14" numLanes="2" speed="13.89" />
+    <edge id="out_TL_14_E" from="TL_14" to="boundary_TL_14_E" numLanes="2" speed="13.89" />
+    <edge id="in_TL_15_W" from="boundary_TL_15_W" to="TL_15" numLanes="2" speed="13.89" />
+    <edge id="out_TL_15_W" from="TL_15" to="boundary_TL_15_W" numLanes="2" speed="13.89" />
+    <edge id="in_TL_19_E" from="boundary_TL_19_E" to="TL_19" numLanes="2" speed="13.89" />
+    <edge id="out_TL_19_E" from="TL_19" to="boundary_TL_19_E" numLanes="2" speed="13.89" />
+    <edge id="in_TL_20_S" from="boundary_TL_20_S" to="TL_20" numLanes="2" speed="13.89" />
+    <edge id="out_TL_20_S" from="TL_20" to="boundary_TL_20_S" numLanes="2" speed="13.89" />
+    <edge id="in_TL_20_W" from="boundary_TL_20_W" to="TL_20" numLanes="2" speed="13.89" />
+    <edge id="out_TL_20_W" from="TL_20" to="boundary_TL_20_W" numLanes="2" speed="13.89" />
+    <edge id="in_TL_21_S" from="boundary_TL_21_S" to="TL_21" numLanes="2" speed="13.89" />
+    <edge id="out_TL_21_S" from="TL_21" to="boundary_TL_21_S" numLanes="2" speed="13.89" />
+    <edge id="in_TL_22_S" from="boundary_TL_22_S" to="TL_22" numLanes="2" speed="13.89" />
+    <edge id="out_TL_22_S" from="TL_22" to="boundary_TL_22_S" numLanes="2" speed="13.89" />
+    <edge id="in_TL_23_S" from="boundary_TL_23_S" to="TL_23" numLanes="2" speed="13.89" />
+    <edge id="out_TL_23_S" from="TL_23" to="boundary_TL_23_S" numLanes="2" speed="13.89" />
+    <edge id="in_TL_24_E" from="boundary_TL_24_E" to="TL_24" numLanes="2" speed="13.89" />
+    <edge id="out_TL_24_E" from="TL_24" to="boundary_TL_24_E" numLanes="2" speed="13.89" />
+    <edge id="in_TL_24_S" from="boundary_TL_24_S" to="TL_24" numLanes="2" speed="13.89" />
+    <edge id="out_TL_24_S" from="TL_24" to="boundary_TL_24_S" numLanes="2" speed="13.89" />
 </edges>

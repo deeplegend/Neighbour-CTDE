@@ -107,7 +107,7 @@ class MultiIntersectionSUMOEnv:
             lanes = sorted(set(traci.trafficlight.getControlledLanes(agent)))
             self.tls_lanes[agent] = [lane for lane in lanes if not lane.startswith(":")]
 
-    def reset(self):
+    def reset(self, seed=None, route_file=None):
         """Resets the SUMO simulation and returns initial observations."""
         try:
             traci.close()
@@ -122,6 +122,10 @@ class MultiIntersectionSUMOEnv:
             "--waiting-time-memory", "1000",
             "-W"
         ]
+        if seed is not None:
+            sumo_cmd.extend(["--seed", str(int(seed))])
+        if route_file is not None:
+            sumo_cmd.extend(["--route-files", os.path.abspath(os.fspath(route_file))])
         traci.start(sumo_cmd)
 
         self.step_count = 0

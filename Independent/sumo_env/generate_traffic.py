@@ -1,8 +1,8 @@
 import os
 import random
 
-def generate_routefile(filename="square_grid.rou.xml", max_steps=3600, ev_probability=0.04):
-    random.seed(42)  # For reproducible baseline comparisons
+def generate_routefile(filename="square_grid.rou.xml", max_steps=3600, ev_probability=0.04, seed=42):
+    rng = random.Random(seed)
     
     # Valid Origin-Destination path sequences traversing through intersections
     routes_pool = [
@@ -38,9 +38,9 @@ def generate_routefile(filename="square_grid.rou.xml", max_steps=3600, ev_probab
         veh_id = 0
         for step in range(max_steps):
             # Spawn probability per second
-            if random.random() < 0.35:
-                route_idx = random.randint(0, len(routes_pool) - 1)
-                is_ev = random.random() < ev_probability
+            if rng.random() < 0.35:
+                route_idx = rng.randint(0, len(routes_pool) - 1)
+                is_ev = rng.random() < ev_probability
                 vtype = "emergency_car" if is_ev else "standard_car"
                 
                 routes.write(f'    <vehicle id="veh_{veh_id}" type="{vtype}" route="r_{route_idx}" depart="{step}" departLane="best" departSpeed="max"/>\n')

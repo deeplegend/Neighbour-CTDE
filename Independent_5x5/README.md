@@ -88,7 +88,7 @@ After training at least one algorithm:
 python test.py
 ```
 
-This evaluates the static baseline and any 5x5 model checkpoints found under `models_5x5/`. It recompiles the same 5x5 node/edge/connection files before running the baseline. It does not automatically evaluate the old checkpoints in `models/`.
+This evaluates the static baseline and any 5x5 model checkpoints found under `models_5x5/` on the same five fixed traffic scenarios (seeds 1001–1005). It saves per-scenario results and aggregate means, sample variances, and standard deviations as CSV files and plots means with standard-deviation error bars. It recompiles the same 5x5 node/edge/connection files before running the baseline. It does not automatically evaluate the old checkpoints in `models/`.
 
 ## 5. What changed
 
@@ -119,4 +119,4 @@ This evaluates the static baseline and any 5x5 model checkpoints found under `mo
 - This package was checked for Python syntax and XML/route connectivity. Run `build_network.py` on a machine with SUMO installed to compile the SUMO network and perform the simulation test.
 ## Multi-scenario evaluation without retraining
 
-See `MULTI_SCENARIO_EVALUATION.md` for the full procedure. Run `python test.py` to evaluate the existing `models_5x5` checkpoints on ten fixed route scenarios (seeds 1001–1010). This does not train or update model weights.
+Run `python test.py` to evaluate the existing `models_5x5` checkpoints on five fixed route scenarios (seeds 1001–1005). This does not train or update model weights.

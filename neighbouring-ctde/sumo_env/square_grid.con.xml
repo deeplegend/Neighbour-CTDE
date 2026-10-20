@@ -1,85 +1,303 @@
+<?xml version='1.0' encoding='utf-8'?>
 <connections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/connections_file.xsd">
-    <!-- ==================== TL_0 (Top-Left) ==================== -->
-    <!-- From West (in_TL0_W) -->
-    <connection from="in_TL0_W" to="out_TL0_N" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL0_W" to="edge_0_to_1" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL0_W" to="edge_0_to_3" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From North (in_TL0_N) -->
-    <connection from="in_TL0_N" to="edge_0_to_1" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL0_N" to="edge_0_to_3" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL0_N" to="out_TL0_W" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From East (edge_1_to_0) -->
-    <connection from="edge_1_to_0" to="edge_0_to_3" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_1_to_0" to="out_TL0_W" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_1_to_0" to="out_TL0_N" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From South (edge_3_to_0) -->
-    <connection from="edge_3_to_0" to="out_TL0_W" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_3_to_0" to="out_TL0_N" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_3_to_0" to="edge_0_to_1" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- ==================== TL_1 (Top-Right) ==================== -->
-    <!-- From West (edge_0_to_1) -->
-    <connection from="edge_0_to_1" to="out_TL1_N" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_0_to_1" to="out_TL1_E" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_0_to_1" to="edge_1_to_2" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From North (in_TL1_N) -->
-    <connection from="in_TL1_N" to="out_TL1_E" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL1_N" to="edge_1_to_2" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL1_N" to="edge_1_to_0" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From East (in_TL1_E) -->
-    <connection from="in_TL1_E" to="edge_1_to_2" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL1_E" to="edge_1_to_0" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL1_E" to="out_TL1_N" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From South (edge_2_to_1) -->
-    <connection from="edge_2_to_1" to="edge_1_to_0" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_2_to_1" to="out_TL1_N" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_2_to_1" to="out_TL1_E" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- ==================== TL_2 (Bottom-Right) ==================== -->
-    <!-- From North (edge_1_to_2) -->
-    <connection from="edge_1_to_2" to="out_TL2_E" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_1_to_2" to="out_TL2_S" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_1_to_2" to="edge_2_to_3" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From East (in_TL2_E) -->
-    <connection from="in_TL2_E" to="out_TL2_S" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL2_E" to="edge_2_to_3" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL2_E" to="edge_2_to_1" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From South (in_TL2_S) -->
-    <connection from="in_TL2_S" to="edge_2_to_3" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL2_S" to="edge_2_to_1" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL2_S" to="out_TL2_E" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From West (edge_3_to_2) -->
-    <connection from="edge_3_to_2" to="edge_2_to_1" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_3_to_2" to="out_TL2_E" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_3_to_2" to="out_TL2_S" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- ==================== TL_3 (Bottom-Left) ==================== -->
-    <!-- From North (edge_0_to_3) -->
-    <connection from="edge_0_to_3" to="edge_3_to_2" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_0_to_3" to="out_TL3_S" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_0_to_3" to="out_TL3_W" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From East (edge_2_to_3) -->
-    <connection from="edge_2_to_3" to="out_TL3_S" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="edge_2_to_3" to="out_TL3_W" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="edge_2_to_3" to="edge_3_to_0" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From South (in_TL3_S) -->
-    <connection from="in_TL3_S" to="out_TL3_W" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL3_S" to="edge_3_to_0" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL3_S" to="edge_3_to_2" fromLane="0" toLane="0"/> <!-- Right -->
-
-    <!-- From West (in_TL3_W) -->
-    <connection from="in_TL3_W" to="edge_3_to_0" fromLane="1" toLane="1"/> <!-- Left -->
-    <connection from="in_TL3_W" to="edge_3_to_2" fromLane="0" toLane="0"/> <!-- Straight -->
-    <connection from="in_TL3_W" to="out_TL3_S" fromLane="0" toLane="0"/> <!-- Right -->
+    <connection from="in_TL_0_N" to="out_TL_0_W" fromLane="0" toLane="0" />
+    <connection from="in_TL_0_N" to="edge_0_to_5" fromLane="0" toLane="0" />
+    <connection from="in_TL_0_N" to="edge_0_to_1" fromLane="1" toLane="1" />
+    <connection from="edge_1_to_0" to="out_TL_0_N" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_0" to="out_TL_0_W" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_0" to="edge_0_to_5" fromLane="1" toLane="1" />
+    <connection from="edge_5_to_0" to="edge_0_to_1" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_0" to="out_TL_0_N" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_0" to="out_TL_0_W" fromLane="1" toLane="1" />
+    <connection from="in_TL_0_W" to="edge_0_to_5" fromLane="0" toLane="0" />
+    <connection from="in_TL_0_W" to="edge_0_to_1" fromLane="0" toLane="0" />
+    <connection from="in_TL_0_W" to="out_TL_0_N" fromLane="1" toLane="1" />
+    <connection from="in_TL_1_N" to="edge_1_to_0" fromLane="0" toLane="0" />
+    <connection from="in_TL_1_N" to="edge_1_to_6" fromLane="0" toLane="0" />
+    <connection from="in_TL_1_N" to="edge_1_to_2" fromLane="1" toLane="1" />
+    <connection from="edge_2_to_1" to="out_TL_1_N" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_1" to="edge_1_to_0" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_1" to="edge_1_to_6" fromLane="1" toLane="1" />
+    <connection from="edge_6_to_1" to="edge_1_to_2" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_1" to="out_TL_1_N" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_1" to="edge_1_to_0" fromLane="1" toLane="1" />
+    <connection from="edge_0_to_1" to="edge_1_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_0_to_1" to="edge_1_to_2" fromLane="0" toLane="0" />
+    <connection from="edge_0_to_1" to="out_TL_1_N" fromLane="1" toLane="1" />
+    <connection from="in_TL_2_N" to="edge_2_to_1" fromLane="0" toLane="0" />
+    <connection from="in_TL_2_N" to="edge_2_to_7" fromLane="0" toLane="0" />
+    <connection from="in_TL_2_N" to="edge_2_to_3" fromLane="1" toLane="1" />
+    <connection from="edge_3_to_2" to="out_TL_2_N" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_2" to="edge_2_to_1" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_2" to="edge_2_to_7" fromLane="1" toLane="1" />
+    <connection from="edge_7_to_2" to="edge_2_to_3" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_2" to="out_TL_2_N" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_2" to="edge_2_to_1" fromLane="1" toLane="1" />
+    <connection from="edge_1_to_2" to="edge_2_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_2" to="edge_2_to_3" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_2" to="out_TL_2_N" fromLane="1" toLane="1" />
+    <connection from="in_TL_3_N" to="edge_3_to_2" fromLane="0" toLane="0" />
+    <connection from="in_TL_3_N" to="edge_3_to_8" fromLane="0" toLane="0" />
+    <connection from="in_TL_3_N" to="edge_3_to_4" fromLane="1" toLane="1" />
+    <connection from="edge_4_to_3" to="out_TL_3_N" fromLane="0" toLane="0" />
+    <connection from="edge_4_to_3" to="edge_3_to_2" fromLane="0" toLane="0" />
+    <connection from="edge_4_to_3" to="edge_3_to_8" fromLane="1" toLane="1" />
+    <connection from="edge_8_to_3" to="edge_3_to_4" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_3" to="out_TL_3_N" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_3" to="edge_3_to_2" fromLane="1" toLane="1" />
+    <connection from="edge_2_to_3" to="edge_3_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_3" to="edge_3_to_4" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_3" to="out_TL_3_N" fromLane="1" toLane="1" />
+    <connection from="in_TL_4_N" to="edge_4_to_3" fromLane="0" toLane="0" />
+    <connection from="in_TL_4_N" to="edge_4_to_9" fromLane="0" toLane="0" />
+    <connection from="in_TL_4_N" to="out_TL_4_E" fromLane="1" toLane="1" />
+    <connection from="in_TL_4_E" to="out_TL_4_N" fromLane="0" toLane="0" />
+    <connection from="in_TL_4_E" to="edge_4_to_3" fromLane="0" toLane="0" />
+    <connection from="in_TL_4_E" to="edge_4_to_9" fromLane="1" toLane="1" />
+    <connection from="edge_9_to_4" to="out_TL_4_E" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_4" to="out_TL_4_N" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_4" to="edge_4_to_3" fromLane="1" toLane="1" />
+    <connection from="edge_3_to_4" to="edge_4_to_9" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_4" to="out_TL_4_E" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_4" to="out_TL_4_N" fromLane="1" toLane="1" />
+    <connection from="edge_0_to_5" to="out_TL_5_W" fromLane="0" toLane="0" />
+    <connection from="edge_0_to_5" to="edge_5_to_10" fromLane="0" toLane="0" />
+    <connection from="edge_0_to_5" to="edge_5_to_6" fromLane="1" toLane="1" />
+    <connection from="edge_6_to_5" to="edge_5_to_0" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_5" to="out_TL_5_W" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_5" to="edge_5_to_10" fromLane="1" toLane="1" />
+    <connection from="edge_10_to_5" to="edge_5_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_5" to="edge_5_to_0" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_5" to="out_TL_5_W" fromLane="1" toLane="1" />
+    <connection from="in_TL_5_W" to="edge_5_to_10" fromLane="0" toLane="0" />
+    <connection from="in_TL_5_W" to="edge_5_to_6" fromLane="0" toLane="0" />
+    <connection from="in_TL_5_W" to="edge_5_to_0" fromLane="1" toLane="1" />
+    <connection from="edge_1_to_6" to="edge_6_to_5" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_6" to="edge_6_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_1_to_6" to="edge_6_to_7" fromLane="1" toLane="1" />
+    <connection from="edge_7_to_6" to="edge_6_to_1" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_6" to="edge_6_to_5" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_6" to="edge_6_to_11" fromLane="1" toLane="1" />
+    <connection from="edge_11_to_6" to="edge_6_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_6" to="edge_6_to_1" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_6" to="edge_6_to_5" fromLane="1" toLane="1" />
+    <connection from="edge_5_to_6" to="edge_6_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_6" to="edge_6_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_6" to="edge_6_to_1" fromLane="1" toLane="1" />
+    <connection from="edge_2_to_7" to="edge_7_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_7" to="edge_7_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_2_to_7" to="edge_7_to_8" fromLane="1" toLane="1" />
+    <connection from="edge_8_to_7" to="edge_7_to_2" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_7" to="edge_7_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_7" to="edge_7_to_12" fromLane="1" toLane="1" />
+    <connection from="edge_12_to_7" to="edge_7_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_7" to="edge_7_to_2" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_7" to="edge_7_to_6" fromLane="1" toLane="1" />
+    <connection from="edge_6_to_7" to="edge_7_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_7" to="edge_7_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_7" to="edge_7_to_2" fromLane="1" toLane="1" />
+    <connection from="edge_3_to_8" to="edge_8_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_8" to="edge_8_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_3_to_8" to="edge_8_to_9" fromLane="1" toLane="1" />
+    <connection from="edge_9_to_8" to="edge_8_to_3" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_8" to="edge_8_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_8" to="edge_8_to_13" fromLane="1" toLane="1" />
+    <connection from="edge_13_to_8" to="edge_8_to_9" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_8" to="edge_8_to_3" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_8" to="edge_8_to_7" fromLane="1" toLane="1" />
+    <connection from="edge_7_to_8" to="edge_8_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_8" to="edge_8_to_9" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_8" to="edge_8_to_3" fromLane="1" toLane="1" />
+    <connection from="edge_4_to_9" to="edge_9_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_4_to_9" to="edge_9_to_14" fromLane="0" toLane="0" />
+    <connection from="edge_4_to_9" to="out_TL_9_E" fromLane="1" toLane="1" />
+    <connection from="in_TL_9_E" to="edge_9_to_4" fromLane="0" toLane="0" />
+    <connection from="in_TL_9_E" to="edge_9_to_8" fromLane="0" toLane="0" />
+    <connection from="in_TL_9_E" to="edge_9_to_14" fromLane="1" toLane="1" />
+    <connection from="edge_14_to_9" to="out_TL_9_E" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_9" to="edge_9_to_4" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_9" to="edge_9_to_8" fromLane="1" toLane="1" />
+    <connection from="edge_8_to_9" to="edge_9_to_14" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_9" to="out_TL_9_E" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_9" to="edge_9_to_4" fromLane="1" toLane="1" />
+    <connection from="edge_5_to_10" to="out_TL_10_W" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_10" to="edge_10_to_15" fromLane="0" toLane="0" />
+    <connection from="edge_5_to_10" to="edge_10_to_11" fromLane="1" toLane="1" />
+    <connection from="edge_11_to_10" to="edge_10_to_5" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_10" to="out_TL_10_W" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_10" to="edge_10_to_15" fromLane="1" toLane="1" />
+    <connection from="edge_15_to_10" to="edge_10_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_10" to="edge_10_to_5" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_10" to="out_TL_10_W" fromLane="1" toLane="1" />
+    <connection from="in_TL_10_W" to="edge_10_to_15" fromLane="0" toLane="0" />
+    <connection from="in_TL_10_W" to="edge_10_to_11" fromLane="0" toLane="0" />
+    <connection from="in_TL_10_W" to="edge_10_to_5" fromLane="1" toLane="1" />
+    <connection from="edge_6_to_11" to="edge_11_to_10" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_11" to="edge_11_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_6_to_11" to="edge_11_to_12" fromLane="1" toLane="1" />
+    <connection from="edge_12_to_11" to="edge_11_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_11" to="edge_11_to_10" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_11" to="edge_11_to_16" fromLane="1" toLane="1" />
+    <connection from="edge_16_to_11" to="edge_11_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_11" to="edge_11_to_6" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_11" to="edge_11_to_10" fromLane="1" toLane="1" />
+    <connection from="edge_10_to_11" to="edge_11_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_11" to="edge_11_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_11" to="edge_11_to_6" fromLane="1" toLane="1" />
+    <connection from="edge_7_to_12" to="edge_12_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_12" to="edge_12_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_7_to_12" to="edge_12_to_13" fromLane="1" toLane="1" />
+    <connection from="edge_13_to_12" to="edge_12_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_12" to="edge_12_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_12" to="edge_12_to_17" fromLane="1" toLane="1" />
+    <connection from="edge_17_to_12" to="edge_12_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_12" to="edge_12_to_7" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_12" to="edge_12_to_11" fromLane="1" toLane="1" />
+    <connection from="edge_11_to_12" to="edge_12_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_12" to="edge_12_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_12" to="edge_12_to_7" fromLane="1" toLane="1" />
+    <connection from="edge_8_to_13" to="edge_13_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_13" to="edge_13_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_8_to_13" to="edge_13_to_14" fromLane="1" toLane="1" />
+    <connection from="edge_14_to_13" to="edge_13_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_13" to="edge_13_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_13" to="edge_13_to_18" fromLane="1" toLane="1" />
+    <connection from="edge_18_to_13" to="edge_13_to_14" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_13" to="edge_13_to_8" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_13" to="edge_13_to_12" fromLane="1" toLane="1" />
+    <connection from="edge_12_to_13" to="edge_13_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_13" to="edge_13_to_14" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_13" to="edge_13_to_8" fromLane="1" toLane="1" />
+    <connection from="edge_9_to_14" to="edge_14_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_14" to="edge_14_to_19" fromLane="0" toLane="0" />
+    <connection from="edge_9_to_14" to="out_TL_14_E" fromLane="1" toLane="1" />
+    <connection from="in_TL_14_E" to="edge_14_to_9" fromLane="0" toLane="0" />
+    <connection from="in_TL_14_E" to="edge_14_to_13" fromLane="0" toLane="0" />
+    <connection from="in_TL_14_E" to="edge_14_to_19" fromLane="1" toLane="1" />
+    <connection from="edge_19_to_14" to="out_TL_14_E" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_14" to="edge_14_to_9" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_14" to="edge_14_to_13" fromLane="1" toLane="1" />
+    <connection from="edge_13_to_14" to="edge_14_to_19" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_14" to="out_TL_14_E" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_14" to="edge_14_to_9" fromLane="1" toLane="1" />
+    <connection from="edge_10_to_15" to="out_TL_15_W" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_15" to="edge_15_to_20" fromLane="0" toLane="0" />
+    <connection from="edge_10_to_15" to="edge_15_to_16" fromLane="1" toLane="1" />
+    <connection from="edge_16_to_15" to="edge_15_to_10" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_15" to="out_TL_15_W" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_15" to="edge_15_to_20" fromLane="1" toLane="1" />
+    <connection from="edge_20_to_15" to="edge_15_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_20_to_15" to="edge_15_to_10" fromLane="0" toLane="0" />
+    <connection from="edge_20_to_15" to="out_TL_15_W" fromLane="1" toLane="1" />
+    <connection from="in_TL_15_W" to="edge_15_to_20" fromLane="0" toLane="0" />
+    <connection from="in_TL_15_W" to="edge_15_to_16" fromLane="0" toLane="0" />
+    <connection from="in_TL_15_W" to="edge_15_to_10" fromLane="1" toLane="1" />
+    <connection from="edge_11_to_16" to="edge_16_to_15" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_16" to="edge_16_to_21" fromLane="0" toLane="0" />
+    <connection from="edge_11_to_16" to="edge_16_to_17" fromLane="1" toLane="1" />
+    <connection from="edge_17_to_16" to="edge_16_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_16" to="edge_16_to_15" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_16" to="edge_16_to_21" fromLane="1" toLane="1" />
+    <connection from="edge_21_to_16" to="edge_16_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_16" to="edge_16_to_11" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_16" to="edge_16_to_15" fromLane="1" toLane="1" />
+    <connection from="edge_15_to_16" to="edge_16_to_21" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_16" to="edge_16_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_16" to="edge_16_to_11" fromLane="1" toLane="1" />
+    <connection from="edge_12_to_17" to="edge_17_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_17" to="edge_17_to_22" fromLane="0" toLane="0" />
+    <connection from="edge_12_to_17" to="edge_17_to_18" fromLane="1" toLane="1" />
+    <connection from="edge_18_to_17" to="edge_17_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_17" to="edge_17_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_17" to="edge_17_to_22" fromLane="1" toLane="1" />
+    <connection from="edge_22_to_17" to="edge_17_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_17" to="edge_17_to_12" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_17" to="edge_17_to_16" fromLane="1" toLane="1" />
+    <connection from="edge_16_to_17" to="edge_17_to_22" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_17" to="edge_17_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_17" to="edge_17_to_12" fromLane="1" toLane="1" />
+    <connection from="edge_13_to_18" to="edge_18_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_18" to="edge_18_to_23" fromLane="0" toLane="0" />
+    <connection from="edge_13_to_18" to="edge_18_to_19" fromLane="1" toLane="1" />
+    <connection from="edge_19_to_18" to="edge_18_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_18" to="edge_18_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_18" to="edge_18_to_23" fromLane="1" toLane="1" />
+    <connection from="edge_23_to_18" to="edge_18_to_19" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_18" to="edge_18_to_13" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_18" to="edge_18_to_17" fromLane="1" toLane="1" />
+    <connection from="edge_17_to_18" to="edge_18_to_23" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_18" to="edge_18_to_19" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_18" to="edge_18_to_13" fromLane="1" toLane="1" />
+    <connection from="edge_14_to_19" to="edge_19_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_19" to="edge_19_to_24" fromLane="0" toLane="0" />
+    <connection from="edge_14_to_19" to="out_TL_19_E" fromLane="1" toLane="1" />
+    <connection from="in_TL_19_E" to="edge_19_to_14" fromLane="0" toLane="0" />
+    <connection from="in_TL_19_E" to="edge_19_to_18" fromLane="0" toLane="0" />
+    <connection from="in_TL_19_E" to="edge_19_to_24" fromLane="1" toLane="1" />
+    <connection from="edge_24_to_19" to="out_TL_19_E" fromLane="0" toLane="0" />
+    <connection from="edge_24_to_19" to="edge_19_to_14" fromLane="0" toLane="0" />
+    <connection from="edge_24_to_19" to="edge_19_to_18" fromLane="1" toLane="1" />
+    <connection from="edge_18_to_19" to="edge_19_to_24" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_19" to="out_TL_19_E" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_19" to="edge_19_to_14" fromLane="1" toLane="1" />
+    <connection from="edge_15_to_20" to="out_TL_20_W" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_20" to="out_TL_20_S" fromLane="0" toLane="0" />
+    <connection from="edge_15_to_20" to="edge_20_to_21" fromLane="1" toLane="1" />
+    <connection from="edge_21_to_20" to="edge_20_to_15" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_20" to="out_TL_20_W" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_20" to="out_TL_20_S" fromLane="1" toLane="1" />
+    <connection from="in_TL_20_S" to="edge_20_to_21" fromLane="0" toLane="0" />
+    <connection from="in_TL_20_S" to="edge_20_to_15" fromLane="0" toLane="0" />
+    <connection from="in_TL_20_S" to="out_TL_20_W" fromLane="1" toLane="1" />
+    <connection from="in_TL_20_W" to="out_TL_20_S" fromLane="0" toLane="0" />
+    <connection from="in_TL_20_W" to="edge_20_to_21" fromLane="0" toLane="0" />
+    <connection from="in_TL_20_W" to="edge_20_to_15" fromLane="1" toLane="1" />
+    <connection from="edge_16_to_21" to="edge_21_to_20" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_21" to="out_TL_21_S" fromLane="0" toLane="0" />
+    <connection from="edge_16_to_21" to="edge_21_to_22" fromLane="1" toLane="1" />
+    <connection from="edge_22_to_21" to="edge_21_to_16" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_21" to="edge_21_to_20" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_21" to="out_TL_21_S" fromLane="1" toLane="1" />
+    <connection from="in_TL_21_S" to="edge_21_to_22" fromLane="0" toLane="0" />
+    <connection from="in_TL_21_S" to="edge_21_to_16" fromLane="0" toLane="0" />
+    <connection from="in_TL_21_S" to="edge_21_to_20" fromLane="1" toLane="1" />
+    <connection from="edge_20_to_21" to="out_TL_21_S" fromLane="0" toLane="0" />
+    <connection from="edge_20_to_21" to="edge_21_to_22" fromLane="0" toLane="0" />
+    <connection from="edge_20_to_21" to="edge_21_to_16" fromLane="1" toLane="1" />
+    <connection from="edge_17_to_22" to="edge_22_to_21" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_22" to="out_TL_22_S" fromLane="0" toLane="0" />
+    <connection from="edge_17_to_22" to="edge_22_to_23" fromLane="1" toLane="1" />
+    <connection from="edge_23_to_22" to="edge_22_to_17" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_22" to="edge_22_to_21" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_22" to="out_TL_22_S" fromLane="1" toLane="1" />
+    <connection from="in_TL_22_S" to="edge_22_to_23" fromLane="0" toLane="0" />
+    <connection from="in_TL_22_S" to="edge_22_to_17" fromLane="0" toLane="0" />
+    <connection from="in_TL_22_S" to="edge_22_to_21" fromLane="1" toLane="1" />
+    <connection from="edge_21_to_22" to="out_TL_22_S" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_22" to="edge_22_to_23" fromLane="0" toLane="0" />
+    <connection from="edge_21_to_22" to="edge_22_to_17" fromLane="1" toLane="1" />
+    <connection from="edge_18_to_23" to="edge_23_to_22" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_23" to="out_TL_23_S" fromLane="0" toLane="0" />
+    <connection from="edge_18_to_23" to="edge_23_to_24" fromLane="1" toLane="1" />
+    <connection from="edge_24_to_23" to="edge_23_to_18" fromLane="0" toLane="0" />
+    <connection from="edge_24_to_23" to="edge_23_to_22" fromLane="0" toLane="0" />
+    <connection from="edge_24_to_23" to="out_TL_23_S" fromLane="1" toLane="1" />
+    <connection from="in_TL_23_S" to="edge_23_to_24" fromLane="0" toLane="0" />
+    <connection from="in_TL_23_S" to="edge_23_to_18" fromLane="0" toLane="0" />
+    <connection from="in_TL_23_S" to="edge_23_to_22" fromLane="1" toLane="1" />
+    <connection from="edge_22_to_23" to="out_TL_23_S" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_23" to="edge_23_to_24" fromLane="0" toLane="0" />
+    <connection from="edge_22_to_23" to="edge_23_to_18" fromLane="1" toLane="1" />
+    <connection from="edge_19_to_24" to="edge_24_to_23" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_24" to="out_TL_24_S" fromLane="0" toLane="0" />
+    <connection from="edge_19_to_24" to="out_TL_24_E" fromLane="1" toLane="1" />
+    <connection from="in_TL_24_E" to="edge_24_to_19" fromLane="0" toLane="0" />
+    <connection from="in_TL_24_E" to="edge_24_to_23" fromLane="0" toLane="0" />
+    <connection from="in_TL_24_E" to="out_TL_24_S" fromLane="1" toLane="1" />
+    <connection from="in_TL_24_S" to="out_TL_24_E" fromLane="0" toLane="0" />
+    <connection from="in_TL_24_S" to="edge_24_to_19" fromLane="0" toLane="0" />
+    <connection from="in_TL_24_S" to="edge_24_to_23" fromLane="1" toLane="1" />
+    <connection from="edge_23_to_24" to="out_TL_24_S" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_24" to="out_TL_24_E" fromLane="0" toLane="0" />
+    <connection from="edge_23_to_24" to="edge_24_to_19" fromLane="1" toLane="1" />
 </connections>
