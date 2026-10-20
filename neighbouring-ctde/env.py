@@ -6,8 +6,8 @@ from sumolib import checkBinary
 
 class MultiIntersectionSUMOEnv:
     """
-    Multi-Agent Environment for 4-Intersection Square Ring Topology.
-    Supports Centralized Training with Decentralized Execution (CTDE),
+    Multi-Agent Environment for an NxN signalized grid.
+    Supports neighbor-observation CTDE with a centralized critic / VDN training,
     Emergency Vehicle (EV) prioritization, and Hardware Failsafe overrides.
     """
     def __init__(
@@ -19,15 +19,28 @@ class MultiIntersectionSUMOEnv:
         step_duration=10,         # INCREASED from 5 to 10 for queue discharge
         min_green_time=15,        # ADDED: Prevents phase fluttering
         max_green_time=60,
-        max_neighbors=2,
+        max_neighbors=4,
         w_queue=0.1,
         w_wait=0.05,
         w_ev=3.0,
         w_switch=1.5,
         w_throughput=1.5,         # ADDED: Positive reward for completed trips
-        spillback_occupancy_threshold=0.85  # ADDED: for spillback metric
+        spillback_occupancy_threshold=0.85,  # ADDED: for spillback metric
+        grid_size=5
     ):
-        self.sumocfg_path = sumocfg_path
+        self.grid_size = int(grid_size)
+        if self.grid_size < 2:
+            raise ValueError("grid_size must be at least 2")
+
+        # Resolve the config relative to the current working directory first,
+        # then relative to this project directory.
+        if os.path.isabs(sumocfg_path):
+            resolved_cfg = sumocfg_path
+        elif os.path.exists(sumocfg_path):
+            resolved_cfg = os.path.abspath(sumocfg_path)
+        else:
+            resolved_cfg = os.path.join(os.path.dirname(os.path.abspath(__file__)), sumocfg_path)
+        self.sumocfg_path = resolved_cfg
         self.use_gui = use_gui
         self.max_steps = max_steps
         self.yellow_duration = yellow_duration
@@ -55,17 +68,23 @@ class MultiIntersectionSUMOEnv:
         # doing, corrupting both the reward signal and the next observation.
         self.HOLD_DURATION = 9999
 
-        self.agents = ["TL_0", "TL_1", "TL_2", "TL_3"]
+        self.agents = [f"TL_{i}" for i in range(self.grid_size * self.grid_size)]
         self.possible_agents = self.agents[:]
-
+        self.agent_positions = {
+            f"TL_{row * self.grid_size + col}": (row, col)
+            for row in range(self.grid_size)
+            for col in range(self.grid_size)
+        }
+        self.directional_neighbors = self._build_directional_neighbors()
+        # Compatibility/readability view: only actual neighboring agents, in N/E/S/W order.
         self.neighbor_map = {
-            "TL_0": ["TL_1", "TL_3"],
-            "TL_1": ["TL_0", "TL_2"],
-            "TL_2": ["TL_1", "TL_3"],
-            "TL_3": ["TL_2", "TL_0"]
+            agent: [neighbor for neighbor in self.directional_neighbors[agent].values() if neighbor is not None]
+            for agent in self.agents
         }
 
         self.node_feature_dim = 14
+        if not 0 <= self.max_neighbors <= 4:
+            raise ValueError("max_neighbors must be between 0 and 4")
         self.obs_dim = (1 + self.max_neighbors) * self.node_feature_dim
         self.global_state_dim = len(self.agents) * self.node_feature_dim
         self.action_dim = 2
@@ -91,23 +110,64 @@ class MultiIntersectionSUMOEnv:
         self.is_yellow = {agent: False for agent in self.agents}
         self.step_count = 0
         self.tls_lanes = {}
+        self.approach_lanes = {}
 
         self.metrics = {}
 
+    def _build_directional_neighbors(self):
+        """Build the fixed N/E/S/W neighbor slots for every signal."""
+        neighbors = {}
+        for agent, (row, col) in self.agent_positions.items():
+            directional = {
+                "N": f"TL_{(row - 1) * self.grid_size + col}" if row > 0 else None,
+                "E": f"TL_{row * self.grid_size + (col + 1)}" if col < self.grid_size - 1 else None,
+                "S": f"TL_{(row + 1) * self.grid_size + col}" if row < self.grid_size - 1 else None,
+                "W": f"TL_{row * self.grid_size + (col - 1)}" if col > 0 else None,
+            }
+            neighbors[agent] = directional
+        return neighbors
+
+    def _incoming_edge_id(self, agent, direction):
+        """Return the edge that enters an intersection from a compass direction."""
+        index = int(agent.split("_")[1])
+        row, col = self.agent_positions[agent]
+        if direction == "N" and row > 0:
+            upstream = index - self.grid_size
+            return f"edge_{upstream}_to_{index}"
+        if direction == "E" and col < self.grid_size - 1:
+            upstream = index + 1
+            return f"edge_{upstream}_to_{index}"
+        if direction == "S" and row < self.grid_size - 1:
+            upstream = index + self.grid_size
+            return f"edge_{upstream}_to_{index}"
+        if direction == "W" and col > 0:
+            upstream = index - 1
+            return f"edge_{upstream}_to_{index}"
+        return f"in_TL_{index}_{direction}"
+
     def _get_controlled_lanes(self):
-        """Map incoming controlled lanes for each traffic light.
+        """Map all incoming lanes into stable N/E/S/W approach groups.
 
-        FIX: use sorted() instead of raw set() iteration order. Python's
-        set-of-strings iteration order depends on string hashing and is not
-        guaranteed stable/meaningful across environments or interpreter
-        settings (PYTHONHASHSEED). Sorting makes the lane -> feature-index
-        mapping deterministic and reproducible run to run.
+        The old 2x2 code took the first four alphabetically sorted controlled
+        lane IDs. On a 5x5 network each approach has multiple lanes, so that
+        could omit entire directions. This mapping keeps the 14-feature schema
+        but aggregates all lanes per compass approach.
         """
+        self.tls_lanes = {}
+        self.approach_lanes = {}
         for agent in self.agents:
-            lanes = sorted(set(traci.trafficlight.getControlledLanes(agent)))
-            self.tls_lanes[agent] = [lane for lane in lanes if not lane.startswith(":")]
+            per_direction = {}
+            all_lanes = []
+            for direction in ("N", "E", "S", "W"):
+                edge_id = self._incoming_edge_id(agent, direction)
+                lane_count = traci.edge.getLaneNumber(edge_id)
+                lane_ids = [f"{edge_id}_{lane_index}" for lane_index in range(lane_count)]
+                per_direction[direction] = lane_ids
+                all_lanes.extend(lane_ids)
+            self.approach_lanes[agent] = per_direction
+            self.tls_lanes[agent] = all_lanes
 
-    def reset(self):
+    def reset(self, seed: int | None = None, route_file: str | None = None):
         """Resets the SUMO simulation and returns initial observations."""
         try:
             traci.close()
@@ -122,7 +182,35 @@ class MultiIntersectionSUMOEnv:
             "--waiting-time-memory", "1000",
             "-W"
         ]
+        if seed is not None:
+            sumo_cmd.extend(["--seed", str(seed)])
+        if route_file is not None:
+            sumo_cmd.extend(["--route-files", route_file])
         traci.start(sumo_cmd)
+
+        actual_agents = set(traci.trafficlight.getIDList())
+        expected_agents = set(self.agents)
+        missing_agents = sorted(expected_agents - actual_agents)
+        if missing_agents:
+            traci.close()
+            raise RuntimeError(
+                f"SUMO network does not contain all expected {self.grid_size}x{self.grid_size} "
+                f"traffic lights. Missing: {missing_agents[:10]}"
+            )
+        # The controller below uses phases 0/1 for NS green/yellow and 4/5 for
+        # EW green/yellow, matching the 8-phase signal programs produced by
+        # the generated 4-approach connection layout. Fail clearly otherwise.
+        for agent in self.agents:
+            logics = traci.trafficlight.getAllProgramLogics(agent)
+            active_program = traci.trafficlight.getProgram(agent)
+            active_logic = next((logic for logic in logics if logic.programID == active_program), logics[0] if logics else None)
+            if active_logic is None or len(active_logic.phases) < 6:
+                traci.close()
+                raise RuntimeError(
+                    f"Traffic light {agent} has an unexpected signal program. "
+                    "Expected at least 6 phases so phase indices 0/1 and 4/5 are available. "
+                    "Rebuild the network with sumo_env/build_network.py."
+                )
 
         self.step_count = 0
         self.current_phases = {agent: 0 for agent in self.agents}
@@ -156,72 +244,71 @@ class MultiIntersectionSUMOEnv:
         return obs, info
 
     def _extract_local_features(self, agent):
+        """Return the fixed 14-dimensional feature vector for one intersection.
+
+        Layout is retained from the original implementation:
+        [0:4] queue features for N/E/S/W approaches,
+        [4:8] waiting-time features for N/E/S/W,
+        [8:12] mean speeds for N/E/S/W,
+        [12] emergency-vehicle-present flag, [13] active green direction.
+        Every lane belonging to an approach is aggregated into that direction's
+        feature, so lane ordering does not change the meaning of an input.
         """
-        Extracts a fixed 14-dimensional feature vector for a single intersection:
-        - [0:4]   Lane Queue Lengths (Normalized)
-        - [4:8]   Lane Average Wait Times (Normalized)
-        - [8:12]  Lane Mean Vehicle Velocities (Normalized)
-        - [12]    Emergency Vehicle (EV) Presence Flag (Binary 0 or 1)
-        - [13]    Current Green Phase Index (0.0 or 1.0)
-        """
-        lanes = self.tls_lanes.get(agent, [])
         queue_lengths = []
         wait_times = []
         mean_speeds = []
         ev_present = 0.0
+        per_direction = self.approach_lanes.get(agent, {})
 
-        for lane in lanes[:4]:  # Track up to 4 main incoming lanes
-            q = traci.lane.getLastStepHaltingNumber(lane)
-            w = traci.lane.getWaitingTime(lane)
-            s = traci.lane.getLastStepMeanSpeed(lane)
+        for direction in ("N", "E", "S", "W"):
+            lanes = per_direction.get(direction, [])
+            queue = 0
+            waiting = 0.0
+            speeds = []
+            for lane in lanes:
+                queue += traci.lane.getLastStepHaltingNumber(lane)
+                waiting += traci.lane.getWaitingTime(lane)
+                speeds.append(traci.lane.getLastStepMeanSpeed(lane))
+                for vehicle_id in traci.lane.getLastStepVehicleIDs(lane):
+                    if (traci.vehicle.getTypeID(vehicle_id) == "emergency_car"
+                            or traci.vehicle.getVehicleClass(vehicle_id) == "emergency"):
+                        ev_present = 1.0
 
-            queue_lengths.append(min(q / 20.0, 1.0))
-            wait_times.append(min(w / 120.0, 1.0))
-            mean_speeds.append(min(s / 13.89, 1.0))
-
-            # Scan for Emergency Vehicles on this lane
-            veh_ids = traci.lane.getLastStepVehicleIDs(lane)
-            for vid in veh_ids:
-                if traci.vehicle.getTypeID(vid) == "emergency_car" or traci.vehicle.getVehicleClass(vid) == "emergency":
-                    ev_present = 1.0
-
-        # Pad with zeros if fewer than 4 lanes exist
-        while len(queue_lengths) < 4:
-            queue_lengths.append(0.0)
-            wait_times.append(0.0)
-            mean_speeds.append(0.0)
+            queue_lengths.append(min(queue / 20.0, 1.0))
+            wait_times.append(min(waiting / 120.0, 1.0))
+            mean_speed = float(np.mean(speeds)) if speeds else 0.0
+            mean_speeds.append(min(mean_speed / 13.89, 1.0))
 
         phase_feat = [float(self.current_phases[agent])]
         features = queue_lengths + wait_times + mean_speeds + [ev_present] + phase_feat
-        return np.array(features, dtype=np.float32)
+        return np.asarray(features, dtype=np.float32)
 
     def _get_all_observations(self):
-        """Constructs 42-dimensional decentralized observations with neighbor padding."""
+        """Build each local observation from ego features + N/E/S/W neighbor slots.
+
+        Missing neighbors at the grid boundary are represented by all-zero
+        feature vectors, preserving the same input dimension for every actor.
+        """
         node_features = {agent: self._extract_local_features(agent) for agent in self.agents}
         obs = {}
+        directions = ("N", "E", "S", "W")[:self.max_neighbors]
 
         for agent in self.agents:
-            ego_feat = node_features[agent]
-            neighbors = self.neighbor_map.get(agent, [])
-
-            neighbor_feats = []
-            for n_id in neighbors[:self.max_neighbors]:
-                neighbor_feats.append(node_features[n_id])
-
-            # Zero-padding if intersection has fewer than max_neighbors
-            while len(neighbor_feats) < self.max_neighbors:
-                neighbor_feats.append(np.zeros(self.node_feature_dim, dtype=np.float32))
-
-            # Concatenate: [Ego (14) + Neighbor_1 (14) + Neighbor_2 (14)] = 42
-            full_obs = np.concatenate([ego_feat] + neighbor_feats, axis=0)
-            obs[agent] = full_obs
-
+            pieces = [node_features[agent]]
+            directional = self.directional_neighbors[agent]
+            for direction in directions:
+                neighbor_id = directional[direction]
+                if neighbor_id is None:
+                    pieces.append(np.zeros(self.node_feature_dim, dtype=np.float32))
+                else:
+                    pieces.append(node_features[neighbor_id])
+            obs[agent] = np.concatenate(pieces, axis=0).astype(np.float32, copy=False)
         return obs
 
     def get_global_state(self):
-        """Returns 56-dimensional concatenated joint state for CTDE Centralized Critic/Mixer."""
+        """Return concatenated 14-feature states for all 25 intersections (350 values for 5x5)."""
         features = [self._extract_local_features(agent) for agent in self.agents]
-        return np.concatenate(features, axis=0)
+        return np.concatenate(features, axis=0).astype(np.float32, copy=False)
 
     def _calculate_reward(self, agent, action_switched, arrived_vehicles):
         lanes = self.tls_lanes.get(agent, [])

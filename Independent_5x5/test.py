@@ -29,7 +29,7 @@ from sumo_env.generate_traffic import generate_routefile
 PROJECT_DIR = Path(__file__).resolve().parent
 SUMO_DIR = PROJECT_DIR / "sumo_env"
 DEFAULT_MODELS_DIR = PROJECT_DIR / "models_5x5"
-DEFAULT_SEEDS = list(range(1001, 1011))
+DEFAULT_SEEDS = [1001, 1002, 1003, 1004, 1005]
 ALGORITHMS = ["I-DQN", "I-D2QN", "I-D3QN", "IPPO"]
 METRICS = [
     "throughput",
@@ -287,8 +287,8 @@ def summarize_results(raw: pd.DataFrame) -> pd.DataFrame:
         for metric in metric_cols:
             values = pd.to_numeric(group[metric], errors="coerce").dropna()
             row[f"{metric}_mean"] = float(values.mean()) if len(values) else np.nan
-            # Use the sample SD when there are at least two scenarios. Keep SD
-            # undefined for one observation rather than implying zero variance.
+            # Sample variance and SD are undefined for fewer than two samples.
+            row[f"{metric}_variance"] = float(values.var(ddof=1)) if len(values) >= 2 else np.nan
             row[f"{metric}_std"] = float(values.std(ddof=1)) if len(values) >= 2 else np.nan
         rows.append(row)
     return pd.DataFrame(rows)
@@ -427,17 +427,23 @@ def main():
     plot_summary(summary, chart_path)
 
     print("\n" + "=" * 110)
-    print("SUMMARY (mean ± sample standard deviation across evaluation scenarios)")
+    print("SUMMARY (mean, sample variance, and SD across evaluation scenarios)")
     for _, row in summary.iterrows():
         print(f"\n{row['method']}  (n={int(row['n_scenarios'])})")
         for metric in ["throughput", "avg_delay", "avg_ev_wait", "total_departed", "vehicles_stuck_in_network", "decision_latency_ms"]:
             mean = row.get(f"{metric}_mean", np.nan)
+            variance = row.get(f"{metric}_variance", np.nan)
             std = row.get(f"{metric}_std", np.nan)
             if pd.isna(mean):
                 continue
             metric_label = metric.replace("_", " ")
-            print(f"  {metric_label:<30}: {mean:.4f} ± {std:.4f}" if not pd.isna(std)
-                  else f"  {metric_label:<30}: {mean:.4f} (SD undefined; one valid sample)")
+            if pd.isna(std):
+                print(f"  {metric_label:<30}: mean={mean:.4f} (variance/SD undefined; one valid sample)")
+            else:
+                print(
+                    f"  {metric_label:<30}: mean={mean:.4f}, "
+                    f"variance={variance:.4f}, SD={std:.4f}"
+                )
     print("\nSaved files:")
     print(f"  Raw scenario results : {raw_csv}")
     print(f"  Summary statistics   : {summary_csv}")

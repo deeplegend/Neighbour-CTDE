@@ -1,53 +1,45 @@
+"""Tensor shape tests for the 5x5 Neighbor-CTDE networks."""
 import torch
 from networks import DQNActor, DuelingDQNActor, VDNMixer, MAPPOActor, MAPPOCritic
 
+
 def verify_networks():
-    print("Testing Neural Network Architectures for CTDE...")
-    
+    print("Testing Neural Network Architectures for 5x5 Neighbor-CTDE...")
     batch_size = 32
-    num_agents = 4
-    obs_dim = 42
-    global_state_dim = 56
+    num_agents = 25
+    node_feature_dim = 14
+    max_neighbors = 4
+    obs_dim = (1 + max_neighbors) * node_feature_dim  # 70
+    global_state_dim = num_agents * node_feature_dim  # 350
     action_dim = 2
 
-    # Mock Tensors
-    mock_local_obs = torch.randn(batch_size, obs_dim)
-    mock_global_state = torch.randn(batch_size, global_state_dim)
-    
-    # 1. Test Standard DQN Actor
+    local_obs = torch.randn(batch_size, obs_dim)
+    global_state = torch.randn(batch_size, global_state_dim)
+    mock_agent_q_values = torch.randn(batch_size, num_agents)
+
     dqn = DQNActor(obs_dim, action_dim)
-    q_vals = dqn(mock_local_obs)
-    assert q_vals.shape == (batch_size, action_dim)
-    print("DQN Actor: OK \t\t| Output shape:", q_vals.shape)
+    assert dqn(local_obs).shape == (batch_size, action_dim)
+    print("DQN Actor: OK")
 
-    # 2. Test Dueling DQN Actor
     d3qn = DuelingDQNActor(obs_dim, action_dim)
-    d3qn_vals = d3qn(mock_local_obs)
-    assert d3qn_vals.shape == (batch_size, action_dim)
-    print("D3QN Actor: OK \t\t| Output shape:", d3qn_vals.shape)
+    assert d3qn(local_obs).shape == (batch_size, action_dim)
+    print("D3QN Actor: OK")
 
-    # 3. Test VDN Mixer
-    # Mocking that each of the 4 agents picked an action and we got their Q-values
-    mock_agent_q_vals = torch.randn(batch_size, num_agents) 
     mixer = VDNMixer()
-    q_tot = mixer(mock_agent_q_vals)
-    assert q_tot.shape == (batch_size, 1)
-    print("VDN Mixer: OK \t\t| Output shape:", q_tot.shape)
+    assert mixer(mock_agent_q_values).shape == (batch_size, 1)
+    print("VDN Mixer with 25 agents: OK")
 
-    # 4. Test MAPPO Actor
     mappo_actor = MAPPOActor(obs_dim, action_dim)
-    action, log_prob, entropy = mappo_actor.get_action(mock_local_obs)
-    assert action.shape == (batch_size,)
-    assert log_prob.shape == (batch_size,)
-    print("MAPPO Actor: OK \t| Action shape:", action.shape)
+    action, log_prob, entropy = mappo_actor.get_action(local_obs)
+    assert action.shape == log_prob.shape == entropy.shape == (batch_size,)
+    print("MAPPO Actor: OK")
 
-    # 5. Test MAPPO Centralized Critic
     mappo_critic = MAPPOCritic(global_state_dim)
-    global_val = mappo_critic(mock_global_state)
-    assert global_val.shape == (batch_size, 1)
-    print("MAPPO Critic: OK \t| Output shape:", global_val.shape)
-    
-    print("\nPhase 3 Verification Passed! All tensor dimensions align for CTDE.")
+    assert mappo_critic(global_state).shape == (batch_size, 1)
+    print("MAPPO Centralized Critic: OK")
+
+    print(f"All tensor dimensions align: local_obs={obs_dim}, global_state={global_state_dim}, agents={num_agents}.")
+
 
 if __name__ == "__main__":
     verify_networks()

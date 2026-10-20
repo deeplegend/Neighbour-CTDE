@@ -5,10 +5,10 @@ import seaborn as sns
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
 log_dirs = {
-    "CTDE-D2QN": "runs/CTDE_D2QN",
-    "CTDE-D3QN": "runs/CTDE_D3QN",
-    "CTDE-DQN": "runs/CTDE_DQN",
-    "CTDE-MAPPO": "runs/CTDE_MAPPO"
+    "CTDE-D2QN": "runs/CTDE_5x5_D2QN",
+    "CTDE-D3QN": "runs/CTDE_5x5_D3QN",
+    "CTDE-DQN": "runs/CTDE_5x5_DQN",
+    "CTDE-MAPPO": "runs/CTDE_5x5_MAPPO"
 }
 
 REWARD_TAG = 'Reward/Team_Reward'

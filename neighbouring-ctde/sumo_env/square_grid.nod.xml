@@ -1,20 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
 <nodes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/nodes_file.xsd">
-    <!-- 4 Controlled Traffic Light Intersections -->
-    <node id="TL_0" x="0" y="200" type="traffic_light"/>
-    <node id="TL_1" x="200" y="200" type="traffic_light"/>
-    <node id="TL_2" x="200" y="0" type="traffic_light"/>
-    <node id="TL_3" x="0" y="0" type="traffic_light"/>
-
-    <!-- Peripheral Entry/Exit Boundary Nodes -->
-    <node id="top_left_N" x="0" y="350" type="priority"/>
-    <node id="top_left_W" x="-150" y="200" type="priority"/>
-
-    <node id="top_right_N" x="200" y="350" type="priority"/>
-    <node id="top_right_E" x="350" y="200" type="priority"/>
-
-    <node id="bottom_right_E" x="350" y="0" type="priority"/>
-    <node id="bottom_right_S" x="200" y="-150" type="priority"/>
-
-    <node id="bottom_left_S" x="0" y="-150" type="priority"/>
-    <node id="bottom_left_W" x="-150" y="0" type="priority"/>
+    <node id="TL_0" x="0.00" y="800.00" type="traffic_light" />
+    <node id="TL_1" x="200.00" y="800.00" type="traffic_light" />
+    <node id="TL_2" x="400.00" y="800.00" type="traffic_light" />
+    <node id="TL_3" x="600.00" y="800.00" type="traffic_light" />
+    <node id="TL_4" x="800.00" y="800.00" type="traffic_light" />
+    <node id="TL_5" x="0.00" y="600.00" type="traffic_light" />
+    <node id="TL_6" x="200.00" y="600.00" type="traffic_light" />
+    <node id="TL_7" x="400.00" y="600.00" type="traffic_light" />
+    <node id="TL_8" x="600.00" y="600.00" type="traffic_light" />
+    <node id="TL_9" x="800.00" y="600.00" type="traffic_light" />
+    <node id="TL_10" x="0.00" y="400.00" type="traffic_light" />
+    <node id="TL_11" x="200.00" y="400.00" type="traffic_light" />
+    <node id="TL_12" x="400.00" y="400.00" type="traffic_light" />
+    <node id="TL_13" x="600.00" y="400.00" type="traffic_light" />
+    <node id="TL_14" x="800.00" y="400.00" type="traffic_light" />
+    <node id="TL_15" x="0.00" y="200.00" type="traffic_light" />
+    <node id="TL_16" x="200.00" y="200.00" type="traffic_light" />
+    <node id="TL_17" x="400.00" y="200.00" type="traffic_light" />
+    <node id="TL_18" x="600.00" y="200.00" type="traffic_light" />
+    <node id="TL_19" x="800.00" y="200.00" type="traffic_light" />
+    <node id="TL_20" x="0.00" y="0.00" type="traffic_light" />
+    <node id="TL_21" x="200.00" y="0.00" type="traffic_light" />
+    <node id="TL_22" x="400.00" y="0.00" type="traffic_light" />
+    <node id="TL_23" x="600.00" y="0.00" type="traffic_light" />
+    <node id="TL_24" x="800.00" y="0.00" type="traffic_light" />
+    <node id="boundary_TL_0_N" x="0.00" y="950.00" type="priority" />
+    <node id="boundary_TL_0_W" x="-150.00" y="800.00" type="priority" />
+    <node id="boundary_TL_1_N" x="200.00" y="950.00" type="priority" />
+    <node id="boundary_TL_2_N" x="400.00" y="950.00" type="priority" />
+    <node id="boundary_TL_3_N" x="600.00" y="950.00" type="priority" />
+    <node id="boundary_TL_4_N" x="800.00" y="950.00" type="priority" />
+    <node id="boundary_TL_4_E" x="950.00" y="800.00" type="priority" />
+    <node id="boundary_TL_5_W" x="-150.00" y="600.00" type="priority" />
+    <node id="boundary_TL_9_E" x="950.00" y="600.00" type="priority" />
+    <node id="boundary_TL_10_W" x="-150.00" y="400.00" type="priority" />
+    <node id="boundary_TL_14_E" x="950.00" y="400.00" type="priority" />
+    <node id="boundary_TL_15_W" x="-150.00" y="200.00" type="priority" />
+    <node id="boundary_TL_19_E" x="950.00" y="200.00" type="priority" />
+    <node id="boundary_TL_20_S" x="0.00" y="-150.00" type="priority" />
+    <node id="boundary_TL_20_W" x="-150.00" y="0.00" type="priority" />
+    <node id="boundary_TL_21_S" x="200.00" y="-150.00" type="priority" />
+    <node id="boundary_TL_22_S" x="400.00" y="-150.00" type="priority" />
+    <node id="boundary_TL_23_S" x="600.00" y="-150.00" type="priority" />
+    <node id="boundary_TL_24_E" x="950.00" y="0.00" type="priority" />
+    <node id="boundary_TL_24_S" x="800.00" y="-150.00" type="priority" />
 </nodes>

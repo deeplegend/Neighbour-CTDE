@@ -43,7 +43,8 @@ TAU = 0.005                  # Soft target network update rate (Polyak averaging
 MAX_GRAD_NORM = 5.0          # Gradient clipping threshold
 BUFFER_SIZE = 50000
 
-# Equalized Environment Step Budgets (Total: 200,000 steps each)
+# Training episode budgets retained from the original implementation.
+# The grid is now 5x5; only the environment/network dimensions are scaled.
 VALUE_MAX_EPISODES = 200     # 200 episodes * 1000 steps = 200,000 steps
 PPO_MAX_EPISODES = 1000      # 1000 episodes * 200 steps = 200,000 steps
 
@@ -144,7 +145,7 @@ def evaluate_mappo_policy(env, actor, episodes=EVAL_EPISODES):
 # =====================================================================
 def train_value_based(algorithm="DQN"):
     env = MultiIntersectionSUMOEnv(use_gui=False, max_steps=1000)
-    writer = SummaryWriter(f"runs/CTDE_{algorithm}")
+    writer = SummaryWriter(f"runs/CTDE_5x5_{algorithm}")
 
     obs_dim = env.obs_dim
     action_dim = env.action_dim
@@ -179,7 +180,7 @@ def train_value_based(algorithm="DQN"):
 
     print(f"\n========================================================")
     print(f" Starting {algorithm} (CTDE-VDN) Training on {device_name}")
-    print(f" Target Budget: {VALUE_MAX_EPISODES} Episodes (200,000 Environment Steps)")
+    print(f" Target Budget: {VALUE_MAX_EPISODES} episodes | SUMO horizon: {env.max_steps} simulated seconds/episode")
     print(f" Replay Warmup: {WARMUP_STEPS} Steps | Loss: Smooth L1 (Huber)")
     print(f" Epsilon anneal horizon: {total_anneal_steps} macro-steps ({ANNEAL_FRACTION*100:.0f}% of budget)")
     print(f"========================================================\n")
@@ -280,16 +281,16 @@ def train_value_based(algorithm="DQN"):
         print(f"Episode: {episode+1:03d}/{VALUE_MAX_EPISODES} | Team Reward: {episode_reward:8.2f} | "
               f"Epsilon: {epsilon:.3f} | Switches: {episode_switches} | Buffer: {len(buffer)}/{BUFFER_SIZE}")
 
-    os.makedirs("models", exist_ok=True)
-    torch.save(q_net.state_dict(), f"models/{algorithm}_actor.pth")
-    print(f"\nModel saved successfully at models/{algorithm}_actor.pth")
+    os.makedirs("models_5x5", exist_ok=True)
+    torch.save(q_net.state_dict(), f"models_5x5/{algorithm}_actor.pth")
+    print(f"\nModel saved successfully at models_5x5/{algorithm}_actor.pth")
 
     # ADDED: fair, exploration-free comparison metrics against the static baseline
     print("\nRunning greedy (epsilon=0) evaluation for a fair comparison against the static baseline...")
     eval_metrics = evaluate_value_policy(env, q_net, episodes=EVAL_EPISODES)
     print(f"[{algorithm} Eval | {EVAL_EPISODES} episodes] "
           f"Avg Delay: {eval_metrics['avg_delay']:.2f}s | "
-          f"Avg Queue: {eval_metrics['avg_queue_len']:.2f} veh | "
+          f"Avg Queue: {eval_metrics['avg_controlled_lane_queue_len']:.2f} veh | "
           f"Throughput: {eval_metrics['throughput']:.1f} veh/ep | "
           f"Spillback Events: {eval_metrics['spillback_events']:.1f} | "
           f"Reward: {eval_metrics['episode_reward']:.2f}")
@@ -303,7 +304,7 @@ def train_value_based(algorithm="DQN"):
 # =====================================================================
 def train_mappo():
     env = MultiIntersectionSUMOEnv(use_gui=False, max_steps=1000)
-    writer = SummaryWriter("runs/CTDE_MAPPO")
+    writer = SummaryWriter("runs/CTDE_5x5_MAPPO")
 
     obs_dim = env.obs_dim
     global_state_dim = env.global_state_dim
@@ -324,7 +325,7 @@ def train_mappo():
 
     print(f"\n========================================================")
     print(f" Starting MAPPO (CTDE) Training on {device_name}")
-    print(f" Target Budget: {PPO_MAX_EPISODES} Episodes (200,000 Environment Steps)")
+    print(f" Target Budget: {PPO_MAX_EPISODES} episodes | SUMO horizon: {env.max_steps} simulated seconds/episode")
     print(f" Rollout Horizon: {ROLLOUT_STEPS} Steps | Policy Epochs: {PPO_EPOCHS}")
     print(f"========================================================\n")
 
@@ -444,9 +445,9 @@ def train_mappo():
         print(f"Episode: {episode+1:04d}/{PPO_MAX_EPISODES} | Team Reward: {episode_reward:8.2f} | "
               f"Actor Loss: {actor_loss_val:6.3f} | Critic Loss: {critic_loss_val:6.3f} | Switches: {episode_switches}")
 
-    os.makedirs("models", exist_ok=True)
-    torch.save(actor.state_dict(), "models/MAPPO_actor.pth")
-    print(f"\nModel saved successfully at models/MAPPO_actor.pth")
+    os.makedirs("models_5x5", exist_ok=True)
+    torch.save(actor.state_dict(), "models_5x5/MAPPO_actor.pth")
+    print(f"\nModel saved successfully at models_5x5/MAPPO_actor.pth")
 
     # ADDED: comparison metrics (see evaluate_mappo_policy docstring for the
     # determinism caveat re: networks.py)
@@ -454,7 +455,7 @@ def train_mappo():
     eval_metrics = evaluate_mappo_policy(env, actor, episodes=EVAL_EPISODES)
     print(f"[MAPPO Eval | {EVAL_EPISODES} episodes] "
           f"Avg Delay: {eval_metrics['avg_delay']:.2f}s | "
-          f"Avg Queue: {eval_metrics['avg_queue_len']:.2f} veh | "
+          f"Avg Queue: {eval_metrics['avg_controlled_lane_queue_len']:.2f} veh | "
           f"Throughput: {eval_metrics['throughput']:.1f} veh/ep | "
           f"Spillback Events: {eval_metrics['spillback_events']:.1f} | "
           f"Reward: {eval_metrics['episode_reward']:.2f}")

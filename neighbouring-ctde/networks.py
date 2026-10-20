@@ -35,7 +35,7 @@ def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
 class DQNActor(nn.Module):
     """
     Standard Deep Q-Network. Used for both DQN and D2QN.
-    Takes localized neighbor-padded observation (42 dims) -> Outputs 2 Q-values.
+    Takes a configurable local + neighbor observation -> Outputs 2 Q-values.
     """
     def __init__(self, obs_dim, action_dim):
         super(DQNActor, self).__init__()
@@ -103,7 +103,7 @@ class VDNMixer(nn.Module):
 class MAPPOActor(nn.Module):
     """
     Decentralized Actor for MAPPO.
-    Takes localized observation (42 dims) -> Outputs Categorical action distribution.
+    Takes a configurable local + neighbor observation -> Outputs Categorical action distribution.
     """
     def __init__(self, obs_dim, action_dim):
         super(MAPPOActor, self).__init__()
@@ -132,7 +132,7 @@ class MAPPOActor(nn.Module):
 class MAPPOCritic(nn.Module):
     """
     Centralized Critic for MAPPO.
-    Takes GLOBAL state (56 dims) -> Outputs single global State Value V(s_global).
+    Takes the concatenated global state (14 * number of intersections) -> global V(s).
     """
     def __init__(self, global_state_dim):
         super(MAPPOCritic, self).__init__()
